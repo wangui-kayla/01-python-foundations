@@ -1,92 +1,91 @@
 print("WELCOME TO THE PASSWORD STRENGTH CHECKER!")
-input("Continue...")
+input("Press Enter to continue...")
 
-def check_upper():
-    count_upper = 0
+# ---------------------- CHECKING FUNCTIONS ----------------------
 
+def check_upper(password):
     for char in password:
-        if char.isupper() == True:
-            count_upper += 1
-        else:
-            pass
+        if char.isupper():
+            return True
+    return False
 
-    if count_upper != 0:
-        return count_upper
-    else:
-        print("Error! Password must contain at least ONE uppercase letter.")
-        return
 
-def check_lower():
-    count_lower = 0
-
+def check_lower(password):
     for char in password:
-        if char.islower() == True:
-            count_lower += 1
-        else:
-            pass
+        if char.islower():
+            return True
+    return False
 
-    if count_lower != 0:
-        return count_lower
-    else:
-        print("Error! Password must contain at least ONE lowercase letter.")
-        return
 
-def check_digit():
-    count_digit = 0
-
+def check_digit(password):
     for char in password:
-        if char.isdigit() == True:
-            count_digit += 1
-        else:
-            pass
+        if char.isdigit():
+            return True
+    return False
 
-    if count_digit != 0:
-        return count_digit
-    else:
-        print("Error! Password must contain at least ONE number (0-9).")
-        return
 
-def check_specialchar():
-    count_specialchar = 0
+def check_specialchar(password):
     special_chars = ["#", "_", "@", "!"]
 
     for char in password:
-        if special_chars in char:
-            count_specialchar += 1
-        else:
-            pass
+        if char in special_chars:
+            return True
+    return False
 
-    if count_specialchar != 0:
-        return count_specialchar
-    else:
-        print("Error! Password must contain at least ONE special character (#, _, @, !).")
-        return
+
+# ---------------------- MAIN PROGRAM ----------------------
 
 while True:
-    input("These are the rules for the password...")
-    print("The Password must contain: ")
-    print("\n1. At least 8 characters\n2. At least one uppercase letter\n3. At least one lowercase letter\n4. At least one number\n5. At least one special character (#, _, @, !)")
-    password = input("Enter your Password: ")
 
-    if len(password) >= 8:
-        cu = check_upper()
-        cl = check_lower()
-        cd = check_digit()
-        #cs = check_specialchar()
-        if 8 <= len(password) < 10:
-            input("Your password may be correct...")
-            print("But it is WEAK.")
-            print("Enter ten digits or more to make it stronger.")
-            continue
-        elif len(password) >= 10 and cd <= 2: #cs <= 2
-            input("Your password may be correct...")
-            print("But it is merely MODERATE.")
-            print("Enter more than ten digits and more than two numbers to make it stronger.")
-            continue
-        elif len(password) > 10:
-            input("You have successfully created your password!")
-            print("Your password is STRONG.")
-            break
+    input("\nPress Enter to view the password requirements...")
+
+    print("\nYour password must contain:")
+    print("1. At least 8 characters")
+    print("2. At least one uppercase letter")
+    print("3. At least one lowercase letter")
+    print("4. At least one number")
+    print("5. At least one special character (#, _, @, !)")
+
+    password = input("\nEnter your password: ")
+
+    # Keep track of missing requirements
+    missing = []
+
+    if len(password) < 8:
+        missing.append("At least 8 characters")
+
+    if not check_upper(password):
+        missing.append("One uppercase letter")
+
+    if not check_lower(password):
+        missing.append("One lowercase letter")
+
+    if not check_digit(password):
+        missing.append("One number")
+
+    if not check_specialchar(password):
+        missing.append("One special character (#, _, @, !)")
+
+    # ---------------- Strength ----------------
+
+    if len(missing) == 0:
+
+        if len(password) >= 12:
+            print("\n✅ Password Strength: STRONG")
+        else:
+            print("\n✅ Password Strength: MODERATE")
+            print("Tip: A longer password (12+ characters) is even stronger.")
+
+        break
+
+    elif len(missing) <= 2:
+        print("\n⚠ Password Strength: MODERATE")
     else:
-        print("Error! Password must contain at least EIGHT characters.")
-        continue
+        print("\n❌ Password Strength: WEAK")
+
+    print("\nMissing Requirements:")
+
+    for item in missing:
+        print(f"- {item}")
+
+    print("\nPlease try again.\n")
