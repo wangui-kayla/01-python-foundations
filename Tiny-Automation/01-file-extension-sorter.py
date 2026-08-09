@@ -13,7 +13,12 @@ def file_sorter():
         if not os.path.isdir(path):
             raise NotADirectoryError(f"The path '{path}' is a file, not a folder.")
 
-        contents = os.listdir(path) 
+        contents = []
+
+        for item in os.listdir(path):
+            if os.path.isfile(os.path.join(path, item)):
+                contents.append(item)
+
         print("Folder accessed successfully!")
 
     except FileNotFoundError as e:
@@ -77,7 +82,7 @@ def file_sorter():
             print(f"Moving {file} to Archives folder...")
             time.sleep(1.5)
             
-            archives_folder = os.path.join(path, "Images")
+            archives_folder = os.path.join(path, "Archives")
             os.makedirs(archives_folder, exist_ok=True)
             shutil.move(os.path.join(path, file), archives_folder)
 
