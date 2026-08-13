@@ -1,78 +1,80 @@
 import time
 import random
-         
-print("WELCOME TO THE ROCK, PAPER, SCISSORS GAME!")
-time.sleep(1)
-print("You will play rock, paper, scissors against the computer!")
 
-options = ["ROCK", "PAPER", "SCISSORS"]
+playing = True
 
-while True:
-    try:
-        pc_choice = random.choice(options)
+def play_round():
+    options = ["ROCK", "PAPER", "SCISSORS"]
 
-        print("1. ROCK\n2. PAPER\n3. SCISSORS\n4. EXIT")
-        choice = input("Type your choice (ROCK, PAPER, SCISSORS or EXIT): ").upper()
+    while True:
 
-        if pc_choice == "ROCK" and choice == "SCISSORS":
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("YOU LOSE!")
-            time.sleep(1.5)
+        print("1. ROCK\n2. PAPER\n3. SCISSORS")
+
+        player_choice = input("Type your choice (ROCK, PAPER or SCISSORS): ").upper()
+
+        if player_choice not in options:
+            print("Error! Please choose ROCK, PAPER or SCISSORS.")
             continue
 
-        elif pc_choice == "SCISSORS" and choice == "ROCK":
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("YOU WIN!")
-            time.sleep(1.5)
-            continue
+        break
 
-        elif pc_choice == "SCISSORS" and choice == "PAPER":
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("YOU LOSE!")
-            time.sleep(1.5)
-            continue
+    computer_choice = random.choice(options)
 
-        elif pc_choice == "PAPER" and choice == "SCISSORS":
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("YOU WIN!")
-            time.sleep(1.5)
-            continue
+    beats = {
+        "ROCK" : "SCISSORS",
+        "PAPER" : "ROCK",
+        "SCISSORS" : "PAPER"
+    }
 
-        elif pc_choice == "PAPER" and choice == "ROCK":
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("YOU LOSE!")
-            time.sleep(1.5)
-            continue
+    if player_choice == computer_choice:
+        print(f"You chose: {player_choice}\nComputer chose: {computer_choice}")
+        time.sleep(1)
+        print("YOU TIE!!")
+        return "tie"
+    elif beats[player_choice] == computer_choice:
+        print(f"You chose: {player_choice}\nComputer chose: {computer_choice}")
+        time.sleep(1)
+        print("YOU WIN!!")
+        return "win"
+    elif beats[computer_choice] == player_choice:
+        print(f"You chose: {player_choice}\nComputer chose: {computer_choice}")
+        time.sleep(1)
+        print("YOU LOSE!!")
+        return "lose"
 
-        elif pc_choice == "ROCK" and choice == "PAPER":
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("YOU WIN!")
-            time.sleep(1.5)
-            continue
+win = 0
+lose = 0
+tie = 0
 
-        elif pc_choice == choice:
-            print(f"You chose: {choice}\nComputer chose: {pc_choice}")
-            time.sleep(1)
-            print("IT'S A TIE!")
-            time.sleep(1.5)
-            continue
+while playing:
+    print("WELCOME TO THE ROCK, PAPER, SCISSORS GAME!")
+    time.sleep(1)
 
-        elif choice == "EXIT":
-            print("Exiting Game...\nBuh Byyeeee!")
-            time.sleep(1.5)
-            break
+    result = play_round()
 
-        else: 
-            print("Error! Please type in caps between ROCK, PAPER and SCISSORS!")
-            time.sleep(1.5)
-            continue
+    if result == "tie":
+        tie += 1
+    elif result == "win":
+        win += 1
+    elif result == "lose":
+        lose += 1
 
-    except ValueError as e:
-        print(f"Error! {e}")
-        time.sleep(1.5)
+    print("--------------------")
+    print("YOUR SCORE")
+    print("--------------------")
+    time.sleep(1)
+    print(f"WINS: {win}")
+    print(f"LOSSES: {lose}")
+    print(f"DRAWS: {tie}")
+
+    time.sleep(1)
+    retry = input("Would you like to play again? (Y/N): ").upper()
+
+    if retry == "Y":
+        print("Getting back to game...")
+        time.sleep(2)
+        continue
+    elif retry == "N":
+        print("Exiting game. Buh Byeeee!")
+        time.sleep(2)
+        playing = False
