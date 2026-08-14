@@ -73,9 +73,3 @@ while calculating:
         else:
             print("Type a valid answer between Y and N")
             continue
-
-
-    
-
-
-
